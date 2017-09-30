@@ -1,0 +1,42 @@
+<p id="notice"><%= notice %></p>
+
+<h2>Car Details</h2>
+<p>
+  <strong>Name:</strong>
+  <%= @car.car_name %>
+</p>
+
+
+<p>
+  <strong>Manufacturer:</strong>
+  <%= @car.manufacturer %>
+</p>
+
+<p>
+  <strong>Model:</strong>
+  <%= @car.car_model %>
+</p>
+
+<p>
+  <strong>Style:</strong>
+  <%= @car.style %>
+</p>
+
+<p>
+  <strong>Location:</strong>
+  <%= @car.location %>
+</p>
+
+<p>
+  <strong>License Number:</strong>
+  <%= @car.license_plate %>
+</p>
+
+<p>
+  <strong>Price($ per Hour):</strong>
+  <%= @car.car_price %>
+</p>
+
+<%render 'rentals/form'%>
+
+<%= link_to 'Back', cars_path, :class => 'button' %>

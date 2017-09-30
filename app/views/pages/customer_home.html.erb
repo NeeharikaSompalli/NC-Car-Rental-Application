@@ -1,0 +1,9 @@
+<%= stylesheet_link_tag params[:controller] %>
+<h1>Pages#customer_home</h1>
+<p>Find me in app/views/pages/customer_home.html.erb</p>
+<% if flash[:notice] %>
+    <p id="notice"><%= flash[:notice] %></p>
+<% end %>
+
+<%= link_to 'Edit Profile', edit_user_path(current_user) %> |
+<%= link_to "Logout", '/logout' %>

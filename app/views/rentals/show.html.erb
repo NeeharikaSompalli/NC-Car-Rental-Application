@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Car:</strong>
+  <%= @rental.car_id %>
+</p>
+
+
+<p>
+  <strong>Customer ID:</strong>
+  <%= @rental.customer_id %>
+</p>
+
+<p>
+  <strong>Start_time:</strong>
+  <%= @rental.start_time %>
+</p>
+
+<p>
+  <strong>End_time:</strong>
+  <%= @rental.end_time %>
+</p>
+<p>
+  <strong>Days:</strong>
+  <%= @rental.period.to_int %>
+</p>
+<p>
+<% link_to "Back", cars_path, :class => 'button' %>
+
+

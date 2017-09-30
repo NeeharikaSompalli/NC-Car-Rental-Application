@@ -1,0 +1,60 @@
+<%= form_for(user) do |f| %>
+  <% if user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+      <% user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<p>
+    <div class="field">
+      <%= f.label :name %>
+      <%= f.text_field :name %>
+    </div>
+</p>
+
+<p>
+    <div class="field">
+      <%= f.label :email %>
+      <%= f.text_field :email %>
+    </div>
+</p>
+
+<p>
+    <div class="field">
+      <%= f.label :password %>
+      <%= f.password_field :password %>
+    </div>
+</p>
+
+    <p>
+    <div class="field">
+      <%= f.label :confirm_password %>
+      <%= f.password_field :confirm_password %>
+    </div>
+    </p>
+
+  <div class="field">
+    <%= f.hidden_field :user_type, :value => 'ADMIN' %>
+  </div>
+
+  <div class="field">
+    <%= f.hidden_field :current_booking, :value => 'FALSE' %>
+  </div>
+
+  <div class="field">
+    <%= f.hidden_field :status, :value => 'Y' %>
+  </div>
+
+<p>
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+</p>
+
+<% end %>

@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Superadmins</h1>
+
+<table>
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th colspan="10"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @users.each do |user| %>
+      <%if user.email != current_user.email %>
+      <tr>
+        <td><%= user.name %></td>
+        <td><%= user.email %></td>
+        <td><%= link_to 'Show', user %></td>
+      </tr>
+      <% end %>
+  <% end %>
+  </tbody>
+</table>
+<%= link_to 'Create Superadmin', new_superadmin_path, :class => 'button' %>
+<br>

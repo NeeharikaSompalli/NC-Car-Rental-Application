@@ -1,0 +1,55 @@
+<%= stylesheet_link_tag params[:controller] %>
+
+<div class="header">
+<div class="logo">
+<img src="/assets/rent3.png">
+
+</div>
+<div class="foo">
+  <span class="letter" data-letter="C">C</span>
+  <span class="letter" data-letter="A">A</span>
+  <span class="letter" data-letter="R">R</span>
+  <span class="letter" data-letter=""> </span>
+  <span class="letter" data-letter="R">R</span>
+  <span class="letter" data-letter="E">E</span>
+  <span class="letter" data-letter="N">N</span>
+  <span class="letter" data-letter="T">T</span>
+  <span class="letter" data-letter="A">A</span>
+  <span class="letter" data-letter="L">L</span>
+
+</div>
+</div>
+<div class="login-page">
+
+<div class="form">
+<% if flash[:notice] %>
+    <p id="notice"><%= flash[:notice] %></p>
+    <% else %>
+    <p>Login Form</p>
+<% end %>
+
+<%= form_for :messages ,:class =>'login-form', url: create_sessions_path do |f| %>
+    <p>
+
+      <%= f.text_field :email, :placeholder => 'Enter Your Email' %>
+    </p>
+
+    <p>
+
+      <%= f.password_field :password, :placeholder => 'Enter Your Password' %>
+    </p>
+
+    <p>
+      <%= f.submit "Login", :class => 'btn btn-primary btn-block btn-large' %>
+    </p>
+
+     <p class="message">Not registered? <%= link_to 'Sign Up', new_user_path%></p>
+<% end %>
+
+
+
+</div>
+</div>
+<div class="footer"></div>
+
+

@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @user.name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @user.email %>
+</p>
+<% if @user.isCustomer? %>
+<p>
+  <strong>Age:</strong>
+  <%= @user.age %>
+</p>
+    <p>
+      <strong>Current booking:</strong>
+      <%= @user.current_booking %>
+    </p>
+<%end%>
+
+
+
+<%if @user.isCustomer? %>
+    <%= link_to "Back", users_path, :class => 'button' %>
+    <%elsif @user.isAdmin? %>
+    <%= link_to "Back", show_all_admin_path, :class => 'button' %>
+    <%elsif @user.isSuperadmin? %>
+    <%= link_to "Back", show_all_superadmin_path, :class => 'button' %>
+<% end %>

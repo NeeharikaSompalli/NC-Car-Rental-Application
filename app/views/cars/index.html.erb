@@ -1,0 +1,66 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Car Rentals</h1>
+
+<p>Select the cars from below displayed ones:</p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Manufacturer</th>
+      <th>Model</th>
+      <th>Style</th>
+      <th>Location</th>
+      <th>Price</th>
+
+      <th>Avalibility</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <% @cars.each do |car| %>
+
+    <!--
+  <%if car.available?%>
+  <tr class= "success"%>
+          <%else%>
+  <tr class=" Not Success"%>
+          <%end%>
+          -->
+      <tr>
+        <td><%= car.car_name %></td>
+        <td><%= car.manufacturer %></td>
+        <td><%= car.car_model %></td>
+        <td><%= car.style %></td>
+        <td><%= car.location %></td>
+        <td><%= car.car_price %></td>
+        <%if car.rentals.empty? %>
+            <td>Available!</td>
+            <%elsif car.available? && car.rentals.any? %>
+            <td>Car is available until <%=car.rentals.map(&:start_time).min.strftime("%d/%m/%y")%></td>
+            <%else%>
+            <td>First Booking on <%= car.rentals.map(&:start_time).min.strftime("%d/%m/%y %R") %></td>
+        <% end %>
+        <td><%= link_to 'Reserve a Car', new_car_rental_path(car) %></td>
+        <td><%= link_to 'Show Reservations', car_rentals_path(car) %></td>
+
+
+        <td><%= link_to 'Car details', car %></td>
+        <% unless current_user.isCustomer? %>
+        <td><%= link_to 'Edit', edit_car_path(car) %></td>
+            <td><%= link_to 'Destroy', car_path(car), data: { confirm: 'Are you sure?' , method: :delete} %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<% unless current_user.isCustomer? %>
+<%= link_to 'New Car', new_car_path, :class => 'button' %>
+<% end %>

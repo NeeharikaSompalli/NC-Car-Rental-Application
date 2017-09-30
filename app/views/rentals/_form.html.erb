@@ -1,0 +1,38 @@
+<%= form_for([@car, @rental]) do |form| %>
+  <% if @rental.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(rental.errors.count, "error") %> prohibited this rental from being saved:</h2>
+
+      <ul>
+      <% rental.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :car_id %>
+    <%= form.collection_select(:car_id, Car.all, :id, :car_name) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :user_id %>
+    <%= form.collection_select(:customer_id, User.fetch_all_customers, :id, :name) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :start_time %>
+    <%= form.datetime_select :start_time,:minute_step => 30, id: :rental_from %>
+  </div>
+
+  <div class="field">
+    <%= form.label :end_time %>
+    <%= form.datetime_select :end_time, :minute_step => 30, id: :rental_to %>
+  </div>
+    <%= form.hidden_field :car_id, :value => params[:car_id]%>
+  <div class="actions">
+
+    <%= form.submit %>
+  </div>
+<% end %>
