@@ -7,6 +7,13 @@ class User < ApplicationRecord
   validates :status, :presence => true
   validates :current_booking, :presence => true
 
+  def self.password_verification(password, confirm_password)
+    if (password != confirm_password)
+      return false
+    end
+    return true
+  end
+
   def authenticate_Password?(entered_password)
     password == entered_password
   end
@@ -48,17 +55,26 @@ class User < ApplicationRecord
     return true
   end
 
-  #soft delete
-  def deleteUser
-    status = 'N'
-  end
-
-  def change_current_booking_status
-    current_booking = 'TRUE'
+  def hasCurrentBooking?
+    if current_booking=='TRUE'
+      return true
+    else
+      return false
+    end
   end
 
   def self.fetch_current_customer(current_user_id)
     return User.where(id: current_user_id)
+  end
+
+  def self.fetch_customer_name(current_user_id)
+    user = User.find (current_user_id)
+
+    if user
+      return user.name
+    else
+      return 'Deleted User'
+    end
   end
 
 end

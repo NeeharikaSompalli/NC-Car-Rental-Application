@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Car:</strong>
+  <%= @mail_notification.car_id %>
+</p>
+
+<p>
+  <strong>Customer:</strong>
+  <%= @mail_notification.customer_id %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @mail_notification.status %>
+</p>
+
+<%= link_to 'Edit', edit_mail_notification_path(@mail_notification) %> |
+<%= link_to 'Back', mail_notifications_path %>

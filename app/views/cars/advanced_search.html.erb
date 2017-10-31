@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Advanced Search</h1>
+
+<%= search_form_for @search do |f| %>
+    <p>Search with no option selected will list all the cars.</p>
+<table>
+  <thead>
+    <tr>
+      <th>Manufacturer</th>
+      <th>Model</th>
+      <th>Style</th>
+      <th>Location</th>
+      <th>Avalibility</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><%= f.collection_select :manufacturer_cont, Car::CAR_MANUFACTURERS, :to_s, :to_s, {:include_blank => "Please select manufacturer"} %></td>
+        <td><%= f.collection_select :car_model_cont, Car::CAR_MODELS ,:to_s, :to_s,{:include_blank => "Please select model"} %></td>
+        <td><%= f.collection_select :style_cont, Car::CAR_STYLES, :to_s, :to_s, {:include_blank => "Please select style"} %></td>
+        <td><%= f.collection_select :location_cont, Car::CAR_LOCATIONS, :to_s, :to_s, {:include_blank => "Please select location"} %></td>
+        <td><%= f.collection_select :status_cont, Car::ALLOWED_CAR_STATUS, :to_s, :to_s, {:include_blank => "Please select status"} %></td>
+      </tr>
+  </tbody>
+</table>
+    <%= f.submit "Search", class: "btn btn-primary" %>
+<% end %>
+
+<%= link_to 'Back', cars_path, :class => 'button' %>

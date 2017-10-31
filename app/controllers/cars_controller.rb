@@ -4,7 +4,9 @@ class CarsController < ApplicationController
   # GET /cars
   # GET /cars.json
   def index
-    @cars = Car.all
+    @search = Car.search(params[:q])
+    @cars = @search.result.where(["is_approved = :status", {status: 'TRUE'}])
+    @search.build_condition
   end
 
   # GET /cars/1
@@ -82,10 +84,51 @@ class CarsController < ApplicationController
   end
 
   def pickup_car
-      #@car.status = 'CHECKED-OUT'
-     # if @car.save
-      #  redirect_to cars_path, notice: 'Car successfully check-out'
-     # end
+      @rental = Rental.find(params[:format])
+      @car = Car.find(@rental.car_id)
+      @car.status = 'CHECKED-OUT'
+      if @car.save
+        redirect_to reservation_history_path
+      end
+  end
+
+  def drop_car
+    @rental = Rental.find(params[:format])
+    @car = Car.find(@rental.car_id)
+    @car.status = 'AVAILABLE'
+    if @car.save
+
+      @user = User.find(@rental.customer_id)
+      @user.current_booking = 'FALSE'
+      @user.save
+
+      @rental.status = 'COMPLETED'
+      @rental.save
+
+      #redirect_to reservation_history_path
+
+      redirect_to send_notification_path(@car)
+
+    end
+  end
+
+  def suggested_cars
+    @cars = Car.where(:is_approved => 'FALSE')
+  end
+
+  def approve_suggested_car
+    @car = Car.find(params[:format])
+    @car.is_approved = 'TRUE'
+    if @car.save
+      redirect_to suggested_cars_path
+    end
+  end
+
+  def advanced_search
+    #@cars = Car.advance_search(params[:search_field], params[:search_value])
+    @search = Car.ransack(params[:q])
+    @cars = @search.result.where(["is_approved = :status", {status: 'TRUE'}])
+
   end
 
   def set_car

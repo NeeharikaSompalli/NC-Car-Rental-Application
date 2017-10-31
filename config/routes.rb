@@ -1,8 +1,16 @@
 Rails.application.routes.draw do
+
   get 'sessions/login'
   root 'sessions#login'
 
   get 'cars/pickup_car' => 'cars#pickup_car', as: :pickup
+  get 'cars/drop_car' => 'cars#drop_car', as: :drop_car
+  get 'cars/suggested_cars' => 'cars#suggested_cars', as: :suggested_cars
+  get 'cars/approve_car' => 'cars#approve_suggested_car', as: :approve_car
+  get 'cars/advanced_search' => 'cars#advanced_search', as: :advance_car_search
+
+  get 'mail_notifications/send_notification' => 'mail_notifications#send_notification', as: :send_notification
+
   resources :cars do
   resources :rentals
   end
@@ -49,10 +57,8 @@ Rails.application.routes.draw do
 
   get 'rentals/reservation_history' => 'rentals#reservation_history', as: :reservation_history
 
-  get 'cars/pickup_car' => 'cars#pickup_car', as: :pickup_car
-
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :users
-
+  resources :mail_notifications
  end
 

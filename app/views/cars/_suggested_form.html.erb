@@ -1,0 +1,65 @@
+<%= form_with(model: @car, local: true) do |form| %>
+  <% if @car.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(car.errors.count, "error") %> prohibited this car from being saved:</h2>
+
+      <ul>
+      <% car.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :car_name %>
+    <%= form.text_field :car_name, id: :car_car_name %>
+  </div>
+
+
+    <div class="field">
+      <%= form.label :manufacturer %>
+      <%= form.collection_select :manufacturer, Car::CAR_MANUFACTURERS, :to_s, :to_s, :include_blank => false %>
+    </div>
+
+
+
+  <div class="field">
+    <%= form.label :car_model%>
+    <%= form.collection_select :car_model, Car::CAR_MODELS ,:to_s, :to_s, :include_blank => false%>
+  </div>
+
+
+
+    <div class="field">
+      <%= form.label :style %>
+      <%= form.collection_select :style, Car::CAR_STYLES, :to_s, :to_s, :include_blank => false %>
+    </div>
+
+
+    <div class="field">
+      <%= form.label :location %>
+      <%= form.collection_select :location, Car::CAR_LOCATIONS, :to_s, :to_s, :include_blank => false %>
+    </div>
+
+
+    <div class="field">
+      <%= form.hidden_field :status, :value => 'AVAILABLE' %>
+    </div>
+
+
+    <div class="field">
+      <%= form.label :license_plate %>
+      <%= form.number_field :license_plate %>
+    </div>
+
+    <%= form.hidden_field :status, :value => 'AVAILABLE' %>
+    <%= form.hidden_field :is_approved, :value => 'FALSE' %>
+
+    <div class="actions">
+
+    <div class="actions">
+      <%= form.submit %>
+    </div>
+  </div>
+<% end %>

@@ -8,9 +8,17 @@
 #User.create (:name => 'superadmin', :email => 'superadmin@gmail.com', :password => '123456', :user_type => 'SUPERADMIN')
 
 User.create!(
-        name: 'superadmin',
-        email: 'superadmin@gmail.com',
-        password: '123456',
-        user_type: 'SUPERADMIN',
-        status: 'Y',
-        current_booking: 'FALSE')
+    name: 'superadmin',
+    email: 'superadmin@gmail.com',
+    password: '123456',
+    user_type: 'SUPERADMIN',
+    status: 'Y',
+    current_booking: 'FALSE')
+
+User.create!(
+    name: 'admin',
+    email: 'admin@gmail.com',
+    password: '123456',
+    user_type: 'ADMIN',
+    status: 'Y',
+    current_booking: 'FALSE')

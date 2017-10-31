@@ -2,7 +2,19 @@
 
 <h1>Car Rentals</h1>
 
-<p>Select the cars from below displayed ones:</p>
+<h5>Select the cars from below displayed ones:</h5>
+<h5>Booked cars can be picked-up and dropped-off from "Booking History" tab</h5>
+
+<%= link_to 'Advance search', advance_car_search_path, :class => 'button' %>
+<% unless current_user.isCustomer? %>
+    <%= link_to 'New Car', new_car_path, :class => 'button' %>
+    <%= link_to 'Suggested Cars', suggested_cars_path, :class => 'button' %>
+<%else%>
+    <%= link_to 'Suggest a Car', new_car_path, :class => 'button' %>
+<% end %>
+
+<p> </p>
+
 <table>
   <thead>
     <tr>
@@ -12,26 +24,21 @@
       <th>Style</th>
       <th>Location</th>
       <th>Price</th>
-
+      <th>Status</th>
       <th>Avalibility</th>
       <th></th>
       <th></th>
       <th></th>
       <th></th>
-      <th></th>
+      <% unless current_user.isCustomer? && current_user.hasCurrentBooking? %>
+        <th></th>
+      <% end %>
 
     </tr>
   </thead>
   <tbody>
     <% @cars.each do |car| %>
 
-    <!--
-  <%if car.available?%>
-  <tr class= "success"%>
-          <%else%>
-  <tr class=" Not Success"%>
-          <%end%>
-          -->
       <tr>
         <td><%= car.car_name %></td>
         <td><%= car.manufacturer %></td>
@@ -39,18 +46,22 @@
         <td><%= car.style %></td>
         <td><%= car.location %></td>
         <td><%= car.car_price %></td>
+        <td><%= car.status %></td>
         <%if car.rentals.empty? %>
-            <td>Available!</td>
-            <%elsif car.available? && car.rentals.any? %>
+            <td> </td>
+        <%elsif car.available? && car.rentals.any? %>
             <td>Car is available until <%=car.rentals.map(&:start_time).min.strftime("%d/%m/%y")%></td>
-            <%else%>
+        <%else%>
             <td>First Booking on <%= car.rentals.map(&:start_time).min.strftime("%d/%m/%y %R") %></td>
         <% end %>
-        <td><%= link_to 'Reserve a Car', new_car_rental_path(car) %></td>
+        <% unless current_user.isCustomer? && current_user.hasCurrentBooking? %>
+                <td><%= link_to 'Reserve a Car', new_car_rental_path(car) %></td>
+        <% end %>
         <td><%= link_to 'Show Reservations', car_rentals_path(car) %></td>
 
 
         <td><%= link_to 'Car details', car %></td>
+        <td><%= link_to 'Notify', new_mail_notification_path %></td>
         <% unless current_user.isCustomer? %>
         <td><%= link_to 'Edit', edit_car_path(car) %></td>
             <td><%= link_to 'Destroy', car_path(car), data: { confirm: 'Are you sure?' , method: :delete} %></td>
@@ -59,8 +70,3 @@
     <% end %>
   </tbody>
 </table>
-
-
-<% unless current_user.isCustomer? %>
-<%= link_to 'New Car', new_car_path, :class => 'button' %>
-<% end %>

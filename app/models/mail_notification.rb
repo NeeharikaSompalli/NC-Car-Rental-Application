@@ -1,0 +1,2 @@
+class MailNotification < ApplicationRecord
+end

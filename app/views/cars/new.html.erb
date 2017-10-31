@@ -1,5 +1,9 @@
 <h1>Create a New Car</h1>
 
-<%= render 'form', car: @car %>
+<%if current_user.isCustomer? %>
+    <%= render 'suggested_form', car: @car %>
+<%else%>
+    <%= render 'form', car: @car %>
+<%end%>
 
 <%= link_to 'Back', cars_path, :class => 'button' %>

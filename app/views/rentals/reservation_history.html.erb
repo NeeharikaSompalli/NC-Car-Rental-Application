@@ -4,15 +4,15 @@
 <h3> </h3>
 <h5>Pick up button appears only after start time and is active for 30 minutes</h5>
 <h5>Drop off button appears after pick up and is active till return time</h5>
+<h5>Car can be picked up and dropped multiple times till booking end time</h5>
 <h3> </h3>
 <table>
   <thead>
     <tr>
       <th>Car</th>
-      <th>Start_time</th>
-      <th>End_time</th>
-      <th>Pickup Link</th>
-      <th>Drop-off Link</th>
+      <th>Start Time</th>
+      <th>End Time</th>
+      <th>Pickup/Drop Link</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -21,20 +21,21 @@
     <% @rentals.each do |rental| %>
       <tr>
         <td><%= Car.getCarname(rental.car_id) %></td>
-        <td><%= rental.start_time %></td>
-        <td><%= rental.end_time %></td>
+        <td><%= rental.start_time.strftime("%d/%m/%y %H:%M") %></td>
+        <td><%= rental.end_time.strftime("%d/%m/%y %H:%M") %></td>
         <%if Car.isPickUpTime(rental) %>
-        <td><%= link_to "Pick Up", pickup_path %></td>
-        <%end%>
-        <%if Car.isDropOffTime(rental) %>
-        <td><%= link_to "Return Car", dropoff_car_path %></td>
+        <td><%= link_to "Pick Up", pickup_path(rental), :class => 'button' %></td>
+        <%elsif Car.isDropOffTime(rental) %>
+        <td><%= link_to "Return Car", drop_car_path(rental), :class => 'button' %></td>
+        <% else %>
+        <td> </td>
         <% end %>
       </tr>
 
     <% end %>
   </tbody>
-  <td><%= link_to "Back", cars_path, :class => 'button' %></td>
 </table>
 <br>
+<%= link_to "Back", cars_path, :class => 'button' %>
 
 

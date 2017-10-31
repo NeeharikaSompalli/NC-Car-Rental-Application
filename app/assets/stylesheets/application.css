@@ -203,3 +203,7 @@ label {
     padding-top: 2%;
 }
 
+.content
+{
+    overflow: auto;
+}

@@ -32,12 +32,21 @@ class RentalsController < ApplicationController
   # POST /rentals.json
   def create
     @rental = @car.rentals.build(rental_params)
-    @car.status = 'RESERVED'
-    @car.save
 
     #current_user.change_current_booking_status
     respond_to do |format|
       if @rental.save
+
+        @car.status = 'RESERVED'
+        @car.save
+
+        @user = User.find(@rental.customer_id)
+        @user.current_booking = 'TRUE'
+        @user.save
+
+        CarPickupFailedJob.set(wait_until: (@rental.start_time + 30.minutes)).perform_later(@rental, @user, @car)
+        CarDropoffFailJob.set(wait_until: @rental.end_time).perform_later(@rental, @user, @car)
+
         format.html { redirect_to cars_path, notice: 'car was successfully booked.' }
         format.json { render :show, status: :created, location: @rental }
       else

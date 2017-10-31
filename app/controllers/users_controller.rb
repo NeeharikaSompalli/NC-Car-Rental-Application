@@ -27,8 +27,9 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     respond_to do |format|
-      if @user.save
+      if User.password_verification(params[:user][:password], params[:user][:confirm_password]) && @user.save
         if @user.user_type=='CUSTOMER'
+          UserMailer.registration_confirmation(@user).deliver
           format.html { redirect_to login_session_path, notice: 'User was successfully created.' }
           format.json { render :show, status: :created, location: @user }
         elsif @user.user_type=='ADMIN'
@@ -38,9 +39,15 @@ class UsersController < ApplicationController
           format.html { redirect_to show_all_superadmin_path, notice: 'User was successfully created.' }
           format.json { render :show, status: :created, location: @user }
         end
-      else
+      elsif @user.user_type=='CUSTOMER'
         format.html { render :new }
         format.json { render json: @user.errors, status: :unprocessable_entity }
+      elsif @user.user_type=='ADMIN'
+        format.html { redirect_to show_all_admin_path, notice: 'Admin not created, password and confirm password does not match.' }
+        format.json { render :show, status: :created, location: @user }
+      elsif @user.user_type=='SUPERADMIN'
+        format.html { redirect_to show_all_superadmin_path, notice: 'Superadmin not created, password and Confirm password does not match.' }
+        format.json { render :show, status: :created, location: @user }
       end
     end
   end

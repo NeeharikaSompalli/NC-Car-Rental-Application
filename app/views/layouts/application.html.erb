@@ -32,14 +32,15 @@
                 <li><%= link_to "Superadmins Page", show_all_superadmin_path %></li>
             <% end %>
             <%if current_user %>
-            <li class="align-right"><%= link_to 'Edit Profile', edit_user_path(current_user) %> </li>
-            <li class="align-right"><%= link_to "Logout", '/logout' %></li>
+                <li class="align-right"><%= link_to "Logout", '/logout' %></li>
+                <li class="align-right"><%= link_to 'Edit Profile', edit_user_path(current_user) %> </li>
             <% end %>
         <% end %>
 
         <%if current_user && current_user.isCustomer?%>
-            <li class="align-right"><%= link_to 'Edit Profile', edit_user_path(current_user) %> </li>
             <li class="align-right"><%= link_to "Logout", '/logout' %></li>
+            <li class="align-right"><%= link_to 'Edit Profile', edit_user_path(current_user) %> </li>
+            <li class="align-right"><%= link_to 'Booking History', reservation_history_path %></li>
         <% end %>
 
       </ul>
@@ -49,24 +50,16 @@
 </nav>
 
 <div class="container">
-
- <!--       <h2>
-          <%if current_user %>
-              Welcome <%= current_user.name %>
-                  <%if current_user.isCustomer? %>
-                 <%= link_to 'Booking History', reservation_history_path  %>
-                  <% end %>
-
-          <% end %>
-        </h2>
-        -->
-
+  <%if current_user && current_user.isCustomer? %>
+   Logged in as <%= current_user.name %>
+  <%end%>
   <% if alert %>
       <p class="alert alert-error"><%= alert %></p>
   <% end %>
 
   <%= yield %>
 </div>
+
 </div>
 </body>
 </html>

@@ -1,0 +1,31 @@
+<%= form_with(model: mail_notification, local: true) do |form| %>
+  <% if mail_notification.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(mail_notification.errors.count, "error") %> prohibited this mail_notification from being saved:</h2>
+
+      <ul>
+      <% mail_notification.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :car_id %>
+    <%= form.collection_select(:car_id, Car.all, :id, :car_name) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :customer_id %>
+    <%= form.collection_select(:customer_id, User.fetch_current_customer(current_user.id), :id, :name) %>
+  </div>
+
+  <div class="field">
+    <%= form.hidden_field :status, :value => 'NOTIFY' %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

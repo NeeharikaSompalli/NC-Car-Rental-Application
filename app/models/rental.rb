@@ -42,14 +42,14 @@ def period_unavailable
 end
 
   def date_less_than_today
-    if(start_time < Date.today)
-      errors.add(:base, 'Date should be more than today')
+    if(start_time < Time.now)
+      errors.add(:base, 'Cannot book car before current time.')
     end
   end
 
 
   def date_less_than_7_days_from_now
-    if( start_time > (Date.today + 7.days))
+    if( start_time > (Time.now + 7.days))
       errors.add(:base, 'Booking cannot be done more than 7 days in future')
     end
   end
@@ -71,4 +71,48 @@ end
     reservations = where(customer_id: user_id)
     return reservations
   end
+
+  def self.schedulerTest
+
+
+    #Cars that are not checked-out
+    @rentals = Rental.where(['start_time >= ? AND start_time <= ?', (Time.now - 30.minutes), (Time.now - 60.minutes)])
+
+    @rentals.each do |rental|
+      #update Car status
+      @car = Car.find(rental.car_id)
+      @car.status='AVAILABLE'
+      @car.save
+
+      #Update users current_booking status
+      @user = User.find(rental.customer_id)
+      @user.current_booking='FALSE'
+      @user.save
+
+    end
+    puts 'Completed non pickup scheduler'
+
+
+    @returnlist = Rental.where(['end_time >= ? AND end_time <= ?',(Time.now - 10.minutes), (Time.now)])
+
+    @returnlist.each do |returnEntry|
+
+      @car = Car.find(returnEntry.car_id)
+      @user = User.find(returnEntry.customer_id)
+
+      if(@car.status=='CHECKED-OUT' && @user.current_booking=='TRUE' )
+      #update Car status
+      @car.status='AVAILABLE'
+      @car.save
+
+      #Update users current_booking status
+      @user.current_booking='FALSE'
+      @user.save
+      end
+    end
+    puts 'Completed return scheduler'
+
+  end
+
 end
+

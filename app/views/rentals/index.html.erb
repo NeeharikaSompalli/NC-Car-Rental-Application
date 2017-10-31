@@ -1,14 +1,13 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Rentals</h1>
-
+<h1>Car Reservation History</h1>
+<p><B>Message:</B> Due to a bug in the system the time displayed is +3:00 than raleigh time </p>
 <table>
   <thead>
     <tr>
-      <th>Car</th>
       <th>Customer</th>
-      <th>Start_time</th>
-      <th>End_time</th>
+      <th>Start Time</th>
+      <th>End Time</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -16,16 +15,14 @@
   <tbody>
     <% @rentals.each do |rental| %>
       <tr>
-        <td><%= rental.car_id %></td>
-        <td><%= rental.customer_id %></td>
-        <td><%= rental.start_time %></td>
+        <td><%= User.fetch_customer_name(rental.customer_id) %></td>
+        <td><%= rental.start_time.strftime("%d/%m/%y %H:%M") %></td>
 
-        <td><%= rental.end_time %></td>
-        <%if current_user.isCustomer? %>
-        <% else %>
-        <td><%= link_to 'Edit', edit_car_rental_path(@car, rental) %></td>
+        <td><%= rental.end_time.strftime("%d/%m/%y %H:%M") %></td>
+        <%unless current_user.isCustomer? %>
+            <td><%= link_to 'Edit', edit_car_rental_path(@car, rental) %></td>
+            <td><%= link_to 'Destroy', [@car,rental], method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <% end %>
-        <td><%= link_to 'Destroy', [@car,rental], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
 
     <% end %>

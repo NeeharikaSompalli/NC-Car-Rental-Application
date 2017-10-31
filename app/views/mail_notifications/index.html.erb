@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Mail Notifications</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Car</th>
+      <th>Customer</th>
+      <th>Status</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @mail_notifications.each do |mail_notification| %>
+      <tr>
+        <td><%= mail_notification.car_id %></td>
+        <td><%= mail_notification.customer_id %></td>
+        <td><%= mail_notification.status %></td>
+        <td><%= link_to 'Show', mail_notification %></td>
+        <td><%= link_to 'Edit', edit_mail_notification_path(mail_notification) %></td>
+        <td><%= link_to 'Destroy', mail_notification, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Mail Notification', new_mail_notification_path %>
